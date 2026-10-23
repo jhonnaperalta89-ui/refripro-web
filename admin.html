@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Privado | RefriPro Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-wrapper">
+    <div id="adminLoginBox" class="admin-card-auth">
+      <div class="auth-header">
+        <div class="auth-icon">🔐</div>
+        <h2>Acceso Administrativo</h2>
+        <p>Introduce tus credenciales para gestionar solicitudes</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)">
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label for="adminUser">Usuario</label>
+          <input type="text" id="adminUser" placeholder="Usuario" required>
+        </div>
+        <div class="form-group" style="margin-bottom: 18px;">
+          <label for="adminPass">Contraseña</label>
+          <input type="password" id="adminPass" placeholder="Contraseña" required>
+        </div>
+        <div id="adminLoginError" class="login-error-msg" style="display: none;">
+          ❌ Usuario o contraseña incorrectos.
+        </div>
+        <button type="submit" class="btn-primary full-width">Ingresar al Panel</button>
+      </form>
+      <div style="margin-top: 15px; text-align: center;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: none;">← Volver al sitio principal</a>
+      </div>
+    </div>
+
+    <div id="adminDashboardBox" class="admin-dashboard-container" style="display: none;">
+      <header class="dash-top">
+        <div>
+          <h2>Panel de Gestión de Reservas</h2>
+          <p>Aprobación, rechazo y seguimiento de visitas técnicas</p>
+        </div>
+        <div class="dash-top-actions">
+          <a href="index.html" class="btn-sub-booking" target="_blank">Ver Web Pública ↗</a>
+          <button class="btn-logout" onclick="logoutAdmin()">Cerrar Sesión</button>
+        </div>
+      </header>
+
+      <div class="dash-stats-bar">
+        <div class="stat-pill">Total: <strong id="countTotal">0</strong></div>
+        <div class="stat-pill green">Aprobadas: <strong id="countApproved">0</strong></div>
+        <div class="stat-pill yellow">Pendientes: <strong id="countPending">0</strong></div>
+        <div class="stat-pill red">Rechazadas: <strong id="countRejected">0</strong></div>
+      </div>
+
+      <div id="adminReservationsList" class="admin-cards-list"></div>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
