@@ -64,7 +64,7 @@
       pointer-events: none;
     }
 
-    header, .hud-telemetry-bar, main, footer, .modal-backdrop, .status-floating-banner {
+    header, .hud-telemetry-bar, main, footer, .modal-backdrop, .status-floating-banner, .legal-consent-banner {
       position: relative;
       z-index: 2;
     }
@@ -179,9 +179,7 @@
       100% { transform: scale(0.9); opacity: 0.7; }
     }
 
-    /* ====================================================
-       HUD DE TELEMETRÍA TÉRMICA & CLIMA GLEW
-       ==================================================== */
+    /* HUD de Telemetría */
     .hud-telemetry-bar {
       background: rgba(3, 7, 18, 0.95);
       border-bottom: 1px solid var(--border-glass);
@@ -238,7 +236,6 @@
       user-select: none;
     }
 
-    /* Gráfico de barras manifold interactivo */
     .manifold-equalizer {
       display: inline-flex;
       align-items: flex-end;
@@ -306,6 +303,17 @@
       background: rgba(0, 240, 255, 0.1);
       border-color: var(--neon-cyan);
       transform: translateY(-2px);
+    }
+
+    .btn-danger-ghost {
+      background: transparent;
+      color: var(--neon-magenta);
+      border: 1px solid rgba(255, 0, 123, 0.4);
+    }
+
+    .btn-danger-ghost:hover {
+      background: rgba(255, 0, 123, 0.15);
+      border-color: var(--neon-magenta);
     }
 
     .full-btn { width: 100%; }
@@ -619,6 +627,108 @@
       letter-spacing: 2px;
     }
 
+    /* ====================================================
+       BANNER DE CONSENTIMIENTO LEGAL (LEY 25.326 ARGENTINA)
+       ==================================================== */
+    .legal-consent-banner {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: rgba(7, 9, 19, 0.95);
+      backdrop-filter: blur(16px);
+      border-top: 2px solid var(--neon-cyan);
+      box-shadow: 0 -10px 30px rgba(0, 240, 255, 0.15);
+      padding: 16px 6%;
+      z-index: 1001;
+      display: none;
+      animation: bannerSlideUp 0.35s ease-out forwards;
+    }
+
+    @keyframes bannerSlideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .consent-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .consent-text {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .consent-text strong {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .consent-text p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+    }
+
+    .consent-text a {
+      color: var(--neon-cyan);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .consent-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Checkbox de Términos dentro del Formulario */
+    .legal-checkbox-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-glass);
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    .legal-checkbox-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--neon-cyan);
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .legal-checkbox-row label {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      line-height: 1.4;
+      cursor: pointer;
+      text-transform: none !important;
+      font-weight: 500 !important;
+    }
+
+    .legal-checkbox-row a {
+      color: var(--neon-cyan);
+      text-decoration: underline;
+    }
+
     /* Modales */
     .modal-backdrop {
       position: fixed;
@@ -645,6 +755,7 @@
     }
 
     .status-box { max-width: 520px; }
+    .terms-box { max-width: 700px; }
 
     .modal-header {
       padding: 18px 22px;
@@ -717,6 +828,30 @@
     .detail-block span {
       font-size: 0.88rem;
       color: var(--text-muted);
+    }
+
+    /* Cláusulas Legales Detalladas */
+    .legal-clause {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-left: 3px solid var(--neon-cyan);
+      padding: 14px;
+      border-radius: 4px;
+      margin-bottom: 14px;
+    }
+
+    .legal-clause h4 {
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+    }
+
+    .legal-clause p {
+      font-size: 0.86rem;
+      color: #94a3b8;
+      line-height: 1.5;
     }
 
     /* Formularios */
@@ -885,6 +1020,14 @@
         left: 12px;
         padding: 6px 12px;
       }
+      .legal-consent-banner {
+        padding: 14px;
+      }
+      .consent-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
@@ -914,7 +1057,7 @@
     </div>
   </header>
 
-  <!-- BARRA DE TELEMETRÍA TÉRMICA & TEMPERATURA REAL GLEW -->
+  <!-- HUD Telemetría -->
   <aside class="hud-telemetry-bar" aria-label="Telemetría de Taller">
     <div class="hud-content">
       <div class="hud-cluster">
@@ -1089,9 +1232,31 @@
     💬
   </a>
 
+  <!-- BANNER LEGAL DE CONSENTIMIENTO (LEY 25.326 ARGENTINA) -->
+  <div id="legalConsentBanner" class="legal-consent-banner">
+    <div class="consent-inner">
+      <div class="consent-text">
+        <strong>⚖️ AVISO DE PRIVACIDAD & PROTOCOLO TÉCNICO</strong>
+        <p>
+          En cumplimiento con la <strong>Ley Nacional N° 25.326 de Protección de Datos Personales</strong>, te informamos que los datos suministrados para reservas (nombre, teléfono y domicilio) se procesan exclusivamente para la coordinación del servicio técnico en Glew y alrededores. Toda visita a domicilio posee costo operativo de diagnóstico. 
+          <a onclick="openModal('modal-legal-terms')">Ver Términos y Condiciones Legales</a>.
+        </p>
+      </div>
+      <div class="consent-actions">
+        <button class="btn btn-primary" onclick="acceptLegalConsent()">✓ Aceptar Términos</button>
+        <button class="btn btn-danger-ghost" onclick="rejectLegalConsent()">✕ Rechazar</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     REFRI//PRO SYSTEM ONLINE // DR. RAÚL SCALABRINI ORTIZ 1797, GLEW // WHATSAPP: +54 11 3373-2345
+    <div style="margin-top: 8px;">
+      <a onclick="openModal('modal-legal-terms')" style="color:var(--text-muted); text-decoration:underline; cursor:pointer; font-size:0.78rem;">
+        Términos de Servicio & Protección de Datos (Ley 25.326)
+      </a>
+    </div>
   </footer>
 
   <!-- Modal Booking -->
@@ -1153,6 +1318,16 @@
             </div>
           </div>
 
+          <!-- Casilla de Aceptación Obligatoria -->
+          <div class="legal-checkbox-row">
+            <input type="checkbox" id="checkTermsAgreement" required>
+            <label for="checkTermsAgreement">
+              Declaro conocer y aceptar las 
+              <a onclick="openModal('modal-legal-terms')">Condiciones del Servicio y la Política de Privacidad (Ley 25.326)</a>,
+              reconociendo el costo operativo de la visita a domicilio.
+            </label>
+          </div>
+
           <div style="margin-top: 20px;">
             <button type="submit" class="btn btn-primary full-btn">Confirmar y Generar Código de Reserva ►</button>
           </div>
@@ -1168,6 +1343,53 @@
           </a>
           <button type="button" class="btn-cancel" onclick="closeModal('modal-booking')">Cerrar Ventana</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TÉRMINOS Y CONDICIONES COMPLETOS (LEY 25.326) -->
+  <div class="modal-backdrop" id="modal-legal-terms" onclick="closeOnBackdrop(event, 'modal-legal-terms')">
+    <div class="modal-box terms-box">
+      <div class="modal-header">
+        <div>
+          <h3>TÉRMINOS LEGALES & PROTECCIÓN DE DATOS</h3>
+          <p>Marco regulatorio conforme a la legislación de la República Argentina</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-legal-terms')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="legal-clause">
+          <h4>1. PROTECCIÓN DE DATOS PERSONALES (LEY N° 25.326)</h4>
+          <p>
+            En estricto cumplimiento del art. 6 de la Ley 25.326, se informa al usuario que los datos personales recabados (nombre, número de contacto y domicilio) formarán parte de una base de datos automatizada titularidad de RefriPro con fines exclusivos de coordinación operativa, confirmación de visitas técnicas y seguimiento post-servicio. No se ceden, comercializan ni transfieren datos a terceros bajo ninguna circunstancia.
+          </p>
+        </div>
+
+        <div class="legal-clause">
+          <h4>2. DERECHOS ARCO DEL TITULAR</h4>
+          <p>
+            El titular de los datos personales tiene la facultad de ejercer el derecho de acceso, rectificación, actualización o supresión de los mismos en forma gratuita comunicándose a nuestra casilla de asistencia o vía WhatsApp oficial (+54 11 3373-2345). La <strong>Agencia de Acceso a la Información Pública (AAIP)</strong>, Órgano de Control de la Ley N° 25.326, tiene la atribución de atender las denuncias y reclamos relativos al incumplimiento de las normas sobre protección de datos.
+          </p>
+        </div>
+
+        <div class="legal-clause">
+          <h4>3. COSTO OPERATIVO DE VISITA TÉCNICA Y DIAGNÓSTICO</h4>
+          <p>
+            Toda solicitud de asistencia a domicilio dentro de Glew y zonas aledañas implica el devengamiento de un arancel por traslado instrumental y diagnóstico técnico en sitio. Dicho monto es informado de manera previa a la partida del móvil. En caso de que el cliente apruebe la reparación del equipo, el costo de diagnóstico será <strong>deducido del presupuesto final de mano de obra</strong>.
+          </p>
+        </div>
+
+        <div class="legal-clause">
+          <h4>4. VALIDEZ DEL CÓDIGO DE RESERVA</h4>
+          <p>
+            La generación de una clave de reserva (formato REF-XXXX) constituye una solicitud sujeta a validación y disponibilidad de franja horaria por parte del personal técnico. La visita se considerará formalmente ratificada una vez aprobada en el sistema y reconfirmada a través del canal oficial de WhatsApp.
+          </p>
+        </div>
+
+        <button class="btn btn-primary full-btn" style="margin-top:10px;" onclick="closeModal('modal-legal-terms')">
+          Entendido y Cerrar Términos
+        </button>
       </div>
     </div>
   </div>
@@ -1337,7 +1559,7 @@
     }
     animate();
 
-    // SENSOR EN TIEMPO REAL: CLIMA DE GLEW VÍA OPEN-METEO API
+    // SENSOR CLIMA GLEW
     async function updateGlewTelemetry() {
       const tempEl = document.getElementById('hudGlewTemp');
       const humEl = document.getElementById('hudGlewHum');
@@ -1357,17 +1579,50 @@
           humEl.textContent = `${hum}%`;
         }
       } catch (err) {
-        // En caso de corte momentáneo de red, mantiene un valor de contingencia
         if (tempEl.textContent.includes('--')) {
           tempEl.textContent = '22.4 °C';
           humEl.textContent = '55%';
         }
       }
     }
-
-    // Consulta inicial y actualización periódica cada 10 minutos
     updateGlewTelemetry();
     setInterval(updateGlewTelemetry, 10 * 60 * 1000);
+
+    // ==========================================
+    // CONTROL DEL BANNER DE CONSENTIMIENTO LEY 25.326
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      const consentStatus = localStorage.getItem('refripro_legal_consent');
+      const banner = document.getElementById('legalConsentBanner');
+      const formCheck = document.getElementById('checkTermsAgreement');
+
+      // Si no ha respondido aún, mostrar el banner al entrar
+      if (!consentStatus && banner) {
+        banner.style.display = 'block';
+      } else if (consentStatus === 'accepted' && formCheck) {
+        formCheck.checked = true;
+      }
+    });
+
+    window.acceptLegalConsent = function() {
+      localStorage.setItem('refripro_legal_consent', 'accepted');
+      const banner = document.getElementById('legalConsentBanner');
+      if (banner) banner.style.display = 'none';
+
+      const formCheck = document.getElementById('checkTermsAgreement');
+      if (formCheck) formCheck.checked = true;
+    };
+
+    window.rejectLegalConsent = function() {
+      localStorage.setItem('refripro_legal_consent', 'rejected');
+      const banner = document.getElementById('legalConsentBanner');
+      if (banner) banner.style.display = 'none';
+
+      const formCheck = document.getElementById('checkTermsAgreement');
+      if (formCheck) formCheck.checked = false;
+
+      alert('Has rechazado los términos. La toma de datos para reservas automatizadas ha quedado deshabilitada. Si precisas asistencia técnica directa, puedes coordinar por WhatsApp al +54 11 3373-2345.');
+    };
   </script>
 
   <script type="module" src="js/main.js"></script>
