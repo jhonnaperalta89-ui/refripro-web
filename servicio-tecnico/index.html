@@ -1,0 +1,421 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RefriPro // Climatización & Refrigeración Técnica</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Fondo de Partículas Interactivas y Rejilla Cibernética -->
+  <canvas id="ambient-canvas"></canvas>
+  <div class="grid-overlay"></div>
+
+  <!-- Barra de Navegación -->
+  <header>
+    <div class="logo">
+      <span class="logo-icon">❄️</span>
+      REFRI<span>//</span>PRO
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="openModal('modal-check-status')">🔍 Consultar Reserva</button>
+      <a href="#taller-seccion" class="nav-btn">📍 Ubicación Taller</a>
+      <button class="btn btn-primary" onclick="openBookingModal()">📅 Agendar Visita</button>
+      <a href="https://wa.me/541133732345?text=Hola,%20solicito%20asistencia%20t%C3%A9cnica" target="_blank" class="nav-whatsapp">
+        <span class="pulse-dot"></span>
+        <div class="wa-meta">
+          <small>Guardia WhatsApp</small>
+          <strong>+54 11 3373-2345</strong>
+        </div>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- CATÁLOGOS PRIORITARIOS (PARTE SUPERIOR) -->
+    <section class="catalog-section">
+      <div class="section-badge">SISTEMAS TERMODINÁMICOS // CATÁLOGO ACTIVO</div>
+      <h2>SERVICIOS TÉCNICOS ESPECIALIZADOS</h2>
+      <p class="section-subtitle">Selecciona el módulo requerido para revisar especificaciones o solicitar asistencia a domicilio.</p>
+
+      <div class="features-grid">
+        <!-- Tarjeta 1: Refrigeradores -->
+        <article class="card">
+          <div class="card-tag">Línea Hogar & Comercial</div>
+          <div class="card-icon">🧊</div>
+          <h3>Refrigeradores</h3>
+          <p>Mantenimiento y reparación para heladeras no-frost, convencionales e inverter de última generación.</p>
+          <ul class="spec-list">
+            <li>Cargas de gas refrigerante ecológico</li>
+            <li>Reemplazo de motor compresor</li>
+            <li>Reparación o cambio de termostato</li>
+            <li>Mantenimiento general del circuito</li>
+          </ul>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('modal-refrigerador')">Ver Detalles ►</button>
+            <button class="btn btn-secondary" onclick="openBookingModal('Refrigerador')">Agendar Visita</button>
+          </div>
+        </article>
+
+        <!-- Tarjeta 2: Congeladores -->
+        <article class="card">
+          <div class="card-tag">Baja Temperatura</div>
+          <div class="card-icon">❄️</div>
+          <h3>Congeladores / Freezers</h3>
+          <p>Soluciones para pozos de frío, freezers verticales y sistemas comerciales de congelamiento profundo.</p>
+          <ul class="spec-list">
+            <li>Carga, vacío y presurización de gas</li>
+            <li>Cambio de motocompresores de baja temp</li>
+            <li>Reparación y calibración de termostato</li>
+            <li>Mantenimiento preventivo general</li>
+          </ul>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openModal('modal-congelador')">Ver Detalles ►</button>
+            <button class="btn btn-secondary" onclick="openBookingModal('Congelador / Freezer')">Agendar Visita</button>
+          </div>
+        </article>
+
+        <!-- Tarjeta 3: Climatización Automotriz -->
+        <article class="card auto-card">
+          <div class="card-tag special">Climatización Móvil</div>
+          <div class="card-icon">🚗</div>
+          <h3>Aire Automotriz</h3>
+          <p>Mantenimiento integral y control térmico para sistemas de climatización de autos y utilitarios.</p>
+          <div class="highlight-spec">
+            <div>
+              <strong>✓ Recarga de Gas de Vehículos</strong>
+              <small>Control de estanqueidad, vacío de línea y carga exacta.</small>
+            </div>
+            <div>
+              <strong>✓ Filtro de Habitáculo / Aire</strong>
+              <small>Reemplazo preventivo para optimizar pureza y caudal.</small>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="btn btn-primary" onclick="openBookingModal('Climatización Vehicular')">Agendar Turno Vehicular ►</button>
+            <a href="https://wa.me/541133732345?text=Hola,%20deseo%20consultar%20por%20aire%20acondicionado%20vehicular" target="_blank" class="btn btn-secondary">WhatsApp Directo</a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECCIÓN DE RECEPCIÓN EN TALLER -->
+    <section class="workshop-section" id="taller-seccion">
+      <div class="workshop-container">
+        <div class="workshop-info">
+          <div class="section-badge">RECEPCIÓN FÍSICA // BANCO DE PRUEBAS</div>
+          <h2>¿PREFIERES ACERCAR TU EQUIPO?</h2>
+          <p>Puedes traer tu refrigerador, freezer, unidad condensadora o vehículo directamente a nuestro taller central para diagnóstico en banco instrumental.</p>
+          
+          <div class="workshop-nodes">
+            <div class="node-item">
+              <span class="node-icon">📍</span>
+              <div>
+                <strong>Dirección del Taller</strong>
+                <span>Dr. Raúl Scalabrini Ortiz 1797, B1854GFE Glew, Buenos Aires.</span>
+              </div>
+            </div>
+            <div class="node-item">
+              <span class="node-icon">🕒</span>
+              <div>
+                <strong>Franja Operativa</strong>
+                <span>Lunes a Viernes de 08:30 a 18:30 hs | Sábados de 09:00 a 13:30 hs.</span>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://www.google.com/maps/dir/?api=1&destination=-34.876216,-58.3807245" target="_blank" class="btn btn-primary">
+            🗺️ Abrir Ruta en Google Maps
+          </a>
+        </div>
+
+        <div class="workshop-map-frame">
+          <div class="map-bar">
+            <span>TERMINAL GPS: -34.876216, -58.3807245</span>
+            <small>GLEW // BS. AS.</small>
+          </div>
+          <iframe 
+            src="https://maps.google.com/maps?q=-34.876216,-58.3807245&hl=es&z=17&output=embed" 
+            frameborder="0" 
+            scrolling="no" 
+            marginheight="0" 
+            marginwidth="0"
+            title="Ubicación exacto Scalabrini Ortiz 1797">
+          </iframe>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- BANNER FLOTANTE COMPACTO: CONSULTAR RESERVA -->
+  <div class="status-floating-banner" onclick="openModal('modal-check-status')">
+    <div class="banner-pulse">🔍</div>
+    <div class="banner-text">
+      <strong>Verificar Reserva</strong>
+      <small>Ingresa tu código REF</small>
+    </div>
+  </div>
+
+  <!-- BOTÓN FLOTANTE WHATSAPP -->
+  <a href="https://wa.me/541133732345?text=Hola,%20necesito%20un%20servicio%20t%C3%A9cnico" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    💬
+  </a>
+
+  <!-- FOOTER -->
+  <footer>
+    REFRI//PRO SYSTEM ONLINE // DR. RAÚL SCALABRINI ORTIZ 1797, GLEW // WHATSAPP: +54 11 3373-2345
+  </footer>
+
+  <!-- MODAL: AGENDAR VISITA TÉCNICA -->
+  <div class="modal-backdrop" id="modal-booking" onclick="closeOnBackdrop(event, 'modal-booking')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>AGENDAR VISITA TÉCNICA</h3>
+          <p>Generación de orden con código único de trazabilidad</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-booking')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="cyber-alert">
+          <strong>⚠️ PROTOCOLO DE VISITA TÉCNICA:</strong>
+          <span>La visita y diagnóstico a domicilio posee un costo operativo de revisión. En caso de autorizar la reparación del equipo, dicho costo se deduce del presupuesto final.</span>
+        </div>
+
+        <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nombre Completo *</label>
+              <input type="text" id="clientName" required placeholder="Ej: Carlos Gómez">
+            </div>
+
+            <div class="form-group">
+              <label>Teléfono / WhatsApp *</label>
+              <input type="tel" id="clientPhone" required placeholder="Ej: 11 4455-6677">
+            </div>
+
+            <div class="form-group full">
+              <label>Dirección y Localidad *</label>
+              <input type="text" id="clientAddress" required placeholder="Ej: Calle 123 N° 456, Glew">
+            </div>
+
+            <div class="form-group">
+              <label>Equipo / Servicio *</label>
+              <select id="serviceType" required>
+                <option value="Refrigerador">Refrigerador / Heladera</option>
+                <option value="Congelador / Freezer">Congelador / Freezer</option>
+                <option value="Climatización Vehicular">Climatización Vehicular</option>
+                <option value="Otro">Otro Equipo Termodinámico</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Fecha Preferida *</label>
+              <input type="date" id="bookingDate" required>
+            </div>
+
+            <div class="form-group full">
+              <label>Franja Horaria *</label>
+              <select id="bookingTime" required>
+                <option value="Mañana (09:00 - 13:00)">Mañana (09:00 a 13:00 hs)</option>
+                <option value="Tarde (13:00 - 17:00)">Tarde (13:00 a 17:00 hs)</option>
+                <option value="Tarde/Noche (17:00 - 20:00)">Tarde / Noche (17:00 a 20:00 hs)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary full-btn">Confirmar y Generar Código de Reserva ►</button>
+          </div>
+        </form>
+
+        <div id="bookingSuccessBox" class="success-box" style="display: none;">
+          <div class="success-badge">✓ ORDEN GENERADA</div>
+          <p>Tu código de seguimiento técnico es:</p>
+          <div class="cyber-code" id="generatedCodeDisplay">REF-0000</div>
+          <p class="code-note">Conserva este código. Ahora confirma el turno directamente con el técnico vía WhatsApp:</p>
+          <a id="btnSendWhatsAppBooking" href="#" target="_blank" class="btn btn-whatsapp-full">
+            💬 Transmitir Orden a WhatsApp (+54 11 3373-2345)
+          </a>
+          <button type="button" class="btn-cancel" onclick="closeModal('modal-booking')">Cerrar Ventana</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CONSULTAR ESTADO DE RESERVA -->
+  <div class="modal-backdrop" id="modal-check-status" onclick="closeOnBackdrop(event, 'modal-check-status')">
+    <div class="modal-box status-box">
+      <div class="modal-header">
+        <div>
+          <h3>VERIFICACIÓN DE RESERVA</h3>
+          <p>Consulta en tiempo real en la base de datos de Firebase</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-check-status')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="check-input-row">
+          <input type="text" id="inputCheckCode" placeholder="INGRESA CÓDIGO (EJ: REF-1234)" autocomplete="off">
+          <button type="button" class="btn btn-primary" onclick="checkReservationStatus()">Consultar</button>
+        </div>
+
+        <div id="checkResultBox" class="check-terminal-output" style="display: none;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALLE REFRIGERADORES -->
+  <div class="modal-backdrop" id="modal-refrigerador" onclick="closeOnBackdrop(event, 'modal-refrigerador')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>PROTOCOLO // REFRIGERADORES</h3>
+          <p>Diagnóstico y reparación multimarca para heladeras convencionales, No Frost e Inverter</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-refrigerador')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-block">
+          <strong>⛽ Carga de Gas Refrigerante:</strong>
+          <span>Detección y sellado de fugas con presurización, barrido de humedad, vacío con bomba de dos etapas y carga según masa del fabricante.</span>
+        </div>
+        <div class="detail-block">
+          <strong>⚙️ Cambio de Motores (Compresores):</strong>
+          <span>Instalación de compresor nuevo, reemplazo de filtro deshidratador, válvula de servicio y prueba eléctrica bajo carga.</span>
+        </div>
+        <div class="detail-block">
+          <strong>🌡️ Reparación o Cambio de Termostato:</strong>
+          <span>Reemplazo de termostatos mecánicos, bimetales de deshielo, sensores NTC y placas de comando digital de frío.</span>
+        </div>
+        <div class="detail-block">
+          <strong>🔧 Mantenimiento General:</strong>
+          <span>Limpieza de condensador, despeje de drenaje, calibración de forzador y chequeo de burletes magnéticos.</span>
+        </div>
+        <button class="btn btn-primary full-btn" style="margin-top:16px;" onclick="switchToBooking('Refrigerador')">
+          Solicitar Visita para Refrigerador ►
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: DETALLE CONGELADORES -->
+  <div class="modal-backdrop" id="modal-congelador" onclick="closeOnBackdrop(event, 'modal-congelador')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3>PROTOCOLO // CONGELADORES & FREEZERS</h3>
+          <p>Asistencia especializada para equipos de conservación y baja temperatura</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal('modal-congelador')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-block">
+          <strong>⛽ Carga de Gas Refrigerante:</strong>
+          <span>Presurización de cañerías, sellado de microfugas y dosificación precisa para asegurar curvas de frío profundo bajo cero.</span>
+        </div>
+        <div class="detail-block">
+          <strong>⚙️ Cambio de Motores (Compresores):</strong>
+          <span>Reemplazo de unidad motriz de baja temperatura, relays de estado sólido y capacitores de arranque reforzados.</span>
+        </div>
+        <div class="detail-block">
+          <strong>🌡️ Reparación o Cambio de Termostato:</strong>
+          <span>Calibración de termostatos para ultra-congelación o control digital programable.</span>
+        </div>
+        <div class="detail-block">
+          <strong>🔧 Mantenimiento General:</strong>
+          <span>Desobstrucción capilar, alineación hermética de tapas y revisión térmica del circuito condensador.</span>
+        </div>
+        <button class="btn btn-primary full-btn" style="margin-top:16px;" onclick="switchToBooking('Congelador / Freezer')">
+          Solicitar Visita para Congelador ►
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script de Fondo Animado y Módulos -->
+  <script>
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const particleCount = 40;
+    let mouse = { x: null, y: null, radius: 130 };
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', (e) => { mouse.x = e.x; mouse.y = e.y; });
+    window.addEventListener('mouseout', () => { mouse.x = null; mouse.y = null; });
+    resize();
+
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.7;
+        this.speedY = (Math.random() - 0.5) * 0.7;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width) this.x = 0; else if (this.x < 0) this.x = canvas.width;
+        if (this.y > canvas.height) this.y = 0; else if (this.y < 0) this.y = canvas.height;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          let dx = mouse.x - this.x;
+          let dy = mouse.y - this.y;
+          let dist = Math.hypot(dx, dy);
+          if (dist < mouse.radius) {
+            let angle = Math.atan2(dy, dx);
+            this.x -= Math.cos(angle) * 1.5;
+            this.y -= Math.sin(angle) * 1.5;
+          }
+        }
+      }
+      draw() {
+        ctx.fillStyle = '#00f0ff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        for (let j = i + 1; j < particles.length; j++) {
+          let dx = particles[i].x - particles[j].x;
+          let dy = particles[i].y - particles[j].y;
+          let distance = Math.hypot(dx, dy);
+          if (distance < 110) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(0, 240, 255, ${0.15 - distance / 750})`;
+            ctx.lineWidth = 0.6;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
