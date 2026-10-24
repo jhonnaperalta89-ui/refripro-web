@@ -1,5 +1,4 @@
-﻿// Importación de módulos oficiales de Firebase desde CDN
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+﻿import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { 
   getFirestore, 
   collection, 
@@ -13,7 +12,7 @@ import {
   onSnapshot 
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-// Credenciales oficiales de tu proyecto refripro-app
+// Credenciales oficiales de refripro-app
 const firebaseConfig = {
   apiKey: "AIzaSyDL6-BNv2HGCDGzKPHhfBTglCy8rM5WVKs",
   authDomain: "refripro-app.firebaseapp.com",
@@ -24,14 +23,11 @@ const firebaseConfig = {
   measurementId: "G-E30WMD3QZE"
 };
 
-// Inicializar Firebase y Firestore
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const bookingsCol = collection(db, "reservas");
 
-// ------------------------------------------
-// CONTROL DE MODALES
-// ------------------------------------------
+// Control de Modales
 window.openModal = function(id) {
   const modal = document.getElementById(id);
   if (modal) {
@@ -49,20 +45,16 @@ window.closeModal = function(id) {
 };
 
 window.closeOnBackdrop = function(e, id) {
-  if (e.target.id === id) {
-    window.closeModal(id);
-  }
+  if (e.target.id === id) window.closeModal(id);
 };
 
 window.openBookingModal = function(serviceName = null) {
   document.querySelectorAll(".modal-backdrop.active").forEach(m => m.classList.remove("active"));
-
-  const bookingModal = document.getElementById("modal-booking");
+  const modal = document.getElementById("modal-booking");
   const form = document.getElementById("bookingForm");
   const successBox = document.getElementById("bookingSuccessBox");
 
-  if (!bookingModal) return;
-
+  if (!modal) return;
   form.style.display = "block";
   successBox.style.display = "none";
 
@@ -78,7 +70,7 @@ window.openBookingModal = function(serviceName = null) {
     if (!dateInput.value) dateInput.value = today;
   }
 
-  bookingModal.classList.add("active");
+  modal.classList.add("active");
   document.body.style.overflow = "hidden";
 };
 
@@ -86,16 +78,13 @@ window.switchToBooking = function(serviceName) {
   window.openBookingModal(serviceName);
 };
 
-// ------------------------------------------
-// ALTA DE RESERVA EN FIREBASE
-// ------------------------------------------
+// Alta de Reserva
 window.handleBookingSubmit = async function(event) {
   event.preventDefault();
-
   const submitBtn = event.target.querySelector("button[type='submit']");
   if (submitBtn) {
     submitBtn.disabled = true;
-    submitBtn.innerText = "Guardando en el sistema...";
+    submitBtn.innerText = "REGISTRANDO EN NODO FIREBASE...";
   }
 
   const name = document.getElementById("clientName").value.trim();
@@ -136,23 +125,20 @@ window.handleBookingSubmit = async function(event) {
       `📅 *Fecha solicitada:* ${date}%0A` +
       `⏰ *Horario:* ${time}%0A` +
       `--------------------------------%0A` +
-      `⚠️ _Entiendo que la visita técnica a domicilio tiene un costo operativo de diagnóstico._`;
+      `⚠️ _Entiendo que la visita técnica a domicilio posee un costo operativo de revisión._`;
 
-    const waUrl = `https://wa.me/541133732345?text=${message}`;
-    document.getElementById("btnSendWhatsAppBooking").href = waUrl;
+    document.getElementById("btnSendWhatsAppBooking").href = `https://wa.me/541133732345?text=${message}`;
   } catch (error) {
-    alert("Error al conectar con la base de datos: " + error.message);
+    alert("Error de conexión a la base de datos: " + error.message);
   } finally {
     if (submitBtn) {
       submitBtn.disabled = false;
-      submitBtn.innerHTML = "<span>Confirmar y Obtener Código de Reserva</span><span>🔒</span>";
+      submitBtn.innerText = "Confirmar y Generar Código de Reserva ►";
     }
   }
 };
 
-// ------------------------------------------
-// CONSULTAR ESTADO DE RESERVA EN FIREBASE
-// ------------------------------------------
+// Verificación de Estado
 window.checkReservationStatus = async function() {
   const input = document.getElementById("inputCheckCode");
   const resultBox = document.getElementById("checkResultBox");
@@ -161,19 +147,18 @@ window.checkReservationStatus = async function() {
   const searchCode = input.value.trim().toUpperCase();
   if (!searchCode) {
     resultBox.style.display = "block";
-    resultBox.className = "check-result-box status-pending";
-    resultBox.innerHTML = "Por favor ingresa un código válido (ej: REF-1234).";
+    resultBox.className = "check-terminal-output output-pending";
+    resultBox.innerHTML = "Ingresa un código válido (ej: REF-1234).";
     return;
   }
 
   resultBox.style.display = "block";
-  resultBox.className = "check-result-box status-pending";
-  resultBox.innerHTML = "Consultando base de datos...";
+  resultBox.className = "check-terminal-output output-pending";
+  resultBox.innerHTML = "Buscando en registros centrales...";
 
   try {
     const snapshot = await getDocs(bookingsCol);
     let found = null;
-
     snapshot.forEach(docSnap => {
       const data = docSnap.data();
       if (data.code && data.code.toUpperCase() === searchCode) {
@@ -182,47 +167,41 @@ window.checkReservationStatus = async function() {
     });
 
     if (!found) {
-      resultBox.className = "check-result-box status-rejected";
-      resultBox.innerHTML = `<strong>Código no encontrado (${searchCode})</strong><br>Verifica si está bien escrito o escríbenos al WhatsApp al +54 11 3373-2345.`;
+      resultBox.className = "check-terminal-output output-rejected";
+      resultBox.innerHTML = `<strong>CÓDIGO NO LOCALIZADO (${searchCode})</strong><br>Verifica si está bien escrito o escríbenos directamente a WhatsApp.`;
       return;
     }
 
     if (found.status === "Aprobada") {
-      resultBox.className = "check-result-box status-approved";
+      resultBox.className = "check-terminal-output output-approved";
       resultBox.innerHTML = `
-        <span class="status-badge-lg status-approved">✅ VISITA APROBADA</span>
-        <p>Hola <strong>${found.name}</strong>, tu visita para <strong>${found.service}</strong> está <strong>confirmada</strong> para el <strong>${found.date}</strong> (${found.time}).</p>
-        <small style="color:#15803d; display:block; margin-top:6px;">📍 Destino: ${found.address}</small>
+        <strong style="color:#22c55e;">[✓] ESTADO: VISITA CONFIRMADA</strong><br>
+        Hola <strong>${found.name}</strong>, el servicio técnico para <strong>${found.service}</strong> fue <strong>aprobado</strong> para el <strong>${found.date}</strong> (${found.time}) en ${found.address}.
       `;
     } else if (found.status === "Rechazada") {
-      resultBox.className = "check-result-box status-rejected";
+      resultBox.className = "check-terminal-output output-rejected";
       resultBox.innerHTML = `
-        <span class="status-badge-lg status-rejected">❌ SOLICITUD RECHAZADA</span>
-        <p>Hola <strong>${found.name}</strong>, lamentablemente no contamos con disponibilidad para esa franja horaria.</p>
-        <small style="color:#991b1b; display:block; margin-top:6px;">Escríbenos por WhatsApp para coordinar otra fecha.</small>
+        <strong style="color:#ef4444;">[✕] ESTADO: FECHA NO DISPONIBLE</strong><br>
+        Hola <strong>${found.name}</strong>, no disponemos de cupo en la franja solicitada. Por favor escríbenos a WhatsApp para coordinar otra fecha.
       `;
     } else {
-      resultBox.className = "check-result-box status-pending";
+      resultBox.className = "check-terminal-output output-pending";
       resultBox.innerHTML = `
-        <span class="status-badge-lg status-pending">⏳ PENDIENTE DE REVISIÓN</span>
-        <p>Hola <strong>${found.name}</strong>, tu solicitud <strong>${found.code}</strong> está en espera de revisión por el técnico.</p>
-        <small style="color:#854d0e; display:block; margin-top:6px;">Si no enviaste los datos por WhatsApp, hazlo para agilizar la respuesta.</small>
+        <strong style="color:#eab308;">[⏳] ESTADO: PENDIENTE DE REVISIÓN</strong><br>
+        Hola <strong>${found.name}</strong>, tu orden <strong>${found.code}</strong> se encuentra en análisis. Si aún no transmitiste la orden por WhatsApp, hazlo para agilizar la respuesta.
       `;
     }
   } catch (error) {
-    resultBox.className = "check-result-box status-rejected";
-    resultBox.innerHTML = "Error al consultar: " + error.message;
+    resultBox.className = "check-terminal-output output-rejected";
+    resultBox.innerHTML = "Error de enlace: " + error.message;
   }
 };
 
-// ------------------------------------------
-// ADMIN: TIEMPO REAL CON FIRESTORE
-// ------------------------------------------
+// Panel de Administración (admin.html)
 window.initAdminPage = function() {
   const isLogged = sessionStorage.getItem("refripro_admin_logged");
   const loginBox = document.getElementById("adminLoginBox");
   const dashBox = document.getElementById("adminDashboardBox");
-
   if (!loginBox || !dashBox) return;
 
   if (isLogged === "true") {
@@ -239,7 +218,6 @@ window.handleAdminLogin = function(event) {
   event.preventDefault();
   const u = document.getElementById("adminUser").value.trim();
   const p = document.getElementById("adminPass").value.trim();
-
   if (u === "jhonny" && p === "1208") {
     sessionStorage.setItem("refripro_admin_logged", "true");
     document.getElementById("adminLoginError").style.display = "none";
@@ -275,7 +253,7 @@ window.setBookingStatus = async function(docId, newStatus) {
 };
 
 window.deleteBooking = async function(docId) {
-  if (confirm("¿Deseas eliminar permanentemente esta reserva de la base de datos?")) {
+  if (confirm("¿Deseas purgar permanentemente esta orden del sistema?")) {
     try {
       const bookingRef = doc(db, "reservas", docId);
       await deleteDoc(bookingRef);
@@ -300,7 +278,7 @@ function renderAdminDashboard(bookings) {
   document.getElementById("countRejected").textContent = rejected;
 
   if (bookings.length === 0) {
-    list.innerHTML = `<p style="text-align:center; color:#94a3b8; padding:40px 0;">No hay solicitudes registradas en la base de datos.</p>`;
+    list.innerHTML = `<p style="text-align:center; color:#94a3b8; padding:40px 0;">No hay solicitudes registradas.</p>`;
     return;
   }
 
@@ -320,14 +298,14 @@ function renderAdminDashboard(bookings) {
           <div><strong>Teléfono:</strong> <a href="https://wa.me/${(b.phone || '').replace(/[^0-9]/g, '')}" target="_blank" style="color:var(--primary); font-weight:700;">${b.phone}</a></div>
           <div><strong>Dirección:</strong> ${b.address}</div>
           <div><strong>Servicio:</strong> ${b.service}</div>
-          <div><strong>Fecha pedida:</strong> ${b.date}</div>
+          <div><strong>Fecha:</strong> ${b.date}</div>
           <div><strong>Franja:</strong> ${b.time}</div>
         </div>
         <div class="res-actions-bar">
           <div style="display:flex; gap:8px;">
             <button class="btn-status-action btn-approve" onclick="setBookingStatus('${b.docId}', 'Aprobada')">✓ Aprobar</button>
             <button class="btn-status-action btn-reject" onclick="setBookingStatus('${b.docId}', 'Rechazada')">✕ Rechazar</button>
-            <button class="btn-status-action" style="background:#f1f5f9; border:1px solid #cbd5e1;" onclick="setBookingStatus('${b.docId}', 'Pendiente')">⏳ Dejar Pendiente</button>
+            <button class="btn-status-action" style="background:#f1f5f9; border:1px solid #cbd5e1;" onclick="setBookingStatus('${b.docId}', 'Pendiente')">⏳ Pendiente</button>
           </div>
           <button class="btn-delete-res" onclick="deleteBooking('${b.docId}')">Eliminar</button>
         </div>
@@ -338,19 +316,15 @@ function renderAdminDashboard(bookings) {
   list.innerHTML = html;
 }
 
-// Inicialización de la vista
 document.addEventListener("DOMContentLoaded", () => {
   if (document.getElementById("adminLoginBox")) {
     window.initAdminPage();
   }
 });
 
-// Cerrar modales con Escape
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") {
-    document.querySelectorAll(".modal-backdrop.active").forEach(modal => {
-      modal.classList.remove("active");
-    });
+    document.querySelectorAll(".modal-backdrop.active").forEach(modal => modal.classList.remove("active"));
     document.body.style.overflow = "auto";
   }
 });
