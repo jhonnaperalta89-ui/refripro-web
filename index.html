@@ -16,6 +16,7 @@
       --neon-cyan: #00f0ff;
       --neon-cyan-glow: rgba(0, 240, 255, 0.4);
       --neon-magenta: #ff007b;
+      --neon-green: #10b981;
       --text-main: #f0f4f8;
       --text-muted: #8b9bb4;
       --border-glass: rgba(0, 240, 255, 0.2);
@@ -63,7 +64,7 @@
       pointer-events: none;
     }
 
-    header, main, footer, .modal-backdrop, .status-floating-banner {
+    header, .hud-telemetry-bar, main, footer, .modal-backdrop, .status-floating-banner {
       position: relative;
       z-index: 2;
     }
@@ -74,10 +75,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 6%;
+      padding: 16px 6%;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(12px);
-      background: rgba(7, 9, 19, 0.85);
+      background: rgba(7, 9, 19, 0.9);
       flex-wrap: wrap;
       gap: 15px;
     }
@@ -102,7 +103,7 @@
     .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
@@ -110,10 +111,10 @@
       background: rgba(0, 240, 255, 0.05);
       color: var(--text-main);
       border: 1px solid var(--border-glass);
-      padding: 8px 16px;
+      padding: 7px 14px;
       border-radius: 4px;
       font-family: 'Rajdhani', sans-serif;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 700;
       letter-spacing: 1px;
       cursor: pointer;
@@ -133,7 +134,7 @@
       gap: 10px;
       background: rgba(37, 211, 102, 0.1);
       border: 1px solid rgba(37, 211, 102, 0.4);
-      padding: 7px 16px;
+      padding: 6px 14px;
       border-radius: 4px;
       text-decoration: none;
       color: #fff;
@@ -152,14 +153,14 @@
     }
 
     .wa-meta small {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       color: var(--whatsapp);
       text-transform: uppercase;
       letter-spacing: 1px;
     }
 
     .wa-meta strong {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       font-family: 'Orbitron', sans-serif;
     }
 
@@ -178,11 +179,98 @@
       100% { transform: scale(0.9); opacity: 0.7; }
     }
 
+    /* ====================================================
+       HUD DE TELEMETRÍA TÉRMICA & CLIMA GLEW
+       ==================================================== */
+    .hud-telemetry-bar {
+      background: rgba(3, 7, 18, 0.95);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 8px 6%;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 1.2px;
+      color: var(--text-muted);
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 0 rgba(0, 240, 255, 0.1);
+    }
+
+    .hud-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hud-cluster {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hud-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hud-val-cyan {
+      color: var(--neon-cyan);
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+    }
+
+    .hud-val-green {
+      color: var(--neon-green);
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+    }
+
+    .hud-val-magenta {
+      color: var(--neon-magenta);
+      font-weight: 700;
+    }
+
+    .hud-divider {
+      color: rgba(255, 255, 255, 0.15);
+      user-select: none;
+    }
+
+    /* Gráfico de barras manifold interactivo */
+    .manifold-equalizer {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 12px;
+      vertical-align: middle;
+      padding-left: 4px;
+    }
+
+    .manifold-bar {
+      width: 3px;
+      background: var(--neon-cyan);
+      border-radius: 1px;
+      animation: manifoldPulse 1.2s infinite ease-in-out alternate;
+    }
+
+    .manifold-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+    .manifold-bar:nth-child(2) { height: 80%; animation-delay: 0.4s; }
+    .manifold-bar:nth-child(3) { height: 100%; animation-delay: 0.2s; }
+    .manifold-bar:nth-child(4) { height: 60%; animation-delay: 0.5s; }
+
+    @keyframes manifoldPulse {
+      0% { height: 25%; opacity: 0.5; }
+      50% { height: 95%; opacity: 1; }
+      100% { height: 45%; opacity: 0.7; }
+    }
+
     /* Botones */
     .btn {
       font-family: 'Orbitron', sans-serif;
-      padding: 12px 24px;
-      font-size: 0.85rem;
+      padding: 10px 20px;
+      font-size: 0.82rem;
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
@@ -200,11 +288,11 @@
     .btn-primary {
       background: var(--neon-cyan);
       color: #000;
-      box-shadow: 0 0 18px var(--neon-cyan-glow);
+      box-shadow: 0 0 16px var(--neon-cyan-glow);
     }
 
     .btn-primary:hover {
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.8);
+      box-shadow: 0 0 28px rgba(0, 240, 255, 0.8);
       transform: translateY(-2px);
     }
 
@@ -226,7 +314,7 @@
     .catalog-section {
       max-width: 1180px;
       margin: 0 auto;
-      padding: 40px 20px 60px;
+      padding: 35px 20px 60px;
       text-align: center;
     }
 
@@ -784,6 +872,10 @@
         grid-column: span 2;
         justify-content: center;
       }
+      .hud-telemetry-bar {
+        padding: 6px 12px;
+        font-size: 0.65rem;
+      }
       .workshop-container { grid-template-columns: 1fr; }
       .form-grid { grid-template-columns: 1fr; }
       .form-group.full { grid-column: span 1; }
@@ -821,6 +913,51 @@
       </a>
     </div>
   </header>
+
+  <!-- BARRA DE TELEMETRÍA TÉRMICA & TEMPERATURA REAL GLEW -->
+  <aside class="hud-telemetry-bar" aria-label="Telemetría de Taller">
+    <div class="hud-content">
+      <div class="hud-cluster">
+        <div class="hud-item">
+          <span>GLEW EXT:</span>
+          <span class="hud-val-cyan" id="hudGlewTemp">--.- °C</span>
+        </div>
+        <span class="hud-divider">//</span>
+        <div class="hud-item">
+          <span>HUMEDAD:</span>
+          <span class="hud-val-cyan" id="hudGlewHum">--%</span>
+        </div>
+        <span class="hud-divider">//</span>
+        <div class="hud-item">
+          <span>BANCO CRIO:</span>
+          <span class="hud-val-magenta">-18.4 °C</span>
+        </div>
+      </div>
+
+      <div class="hud-cluster">
+        <div class="hud-item">
+          <span>PRESIÓN MANIFOLD:</span>
+          <span class="hud-val-green">68 PSI</span>
+          <div class="manifold-equalizer">
+            <span class="manifold-bar"></span>
+            <span class="manifold-bar"></span>
+            <span class="manifold-bar"></span>
+            <span class="manifold-bar"></span>
+          </div>
+        </div>
+        <span class="hud-divider">//</span>
+        <div class="hud-item">
+          <span>FLUJO:</span>
+          <span class="hud-val-green">100% NOMINAL</span>
+        </div>
+        <span class="hud-divider">//</span>
+        <div class="hud-item">
+          <span>CORE SYSTEM:</span>
+          <span class="hud-val-green">ONLINE ●</span>
+        </div>
+      </div>
+    </div>
+  </aside>
 
   <main>
     <!-- Catálogo Arriba -->
@@ -1199,6 +1336,38 @@
       requestAnimationFrame(animate);
     }
     animate();
+
+    // SENSOR EN TIEMPO REAL: CLIMA DE GLEW VÍA OPEN-METEO API
+    async function updateGlewTelemetry() {
+      const tempEl = document.getElementById('hudGlewTemp');
+      const humEl = document.getElementById('hudGlewHum');
+      if (!tempEl || !humEl) return;
+
+      try {
+        const response = await fetch(
+          'https://api.open-meteo.com/v1/forecast?latitude=-34.8762&longitude=-58.3807&current=temperature_2m,relative_humidity_2m&timezone=America%2FArgentina%2FBuenos_Aires'
+        );
+        if (!response.ok) throw new Error('Network response not ok');
+        const data = await response.json();
+        
+        if (data && data.current) {
+          const temp = data.current.temperature_2m;
+          const hum = data.current.relative_humidity_2m;
+          tempEl.textContent = `${temp.toFixed(1)} °C`;
+          humEl.textContent = `${hum}%`;
+        }
+      } catch (err) {
+        // En caso de corte momentáneo de red, mantiene un valor de contingencia
+        if (tempEl.textContent.includes('--')) {
+          tempEl.textContent = '22.4 °C';
+          humEl.textContent = '55%';
+        }
+      }
+    }
+
+    // Consulta inicial y actualización periódica cada 10 minutos
+    updateGlewTelemetry();
+    setInterval(updateGlewTelemetry, 10 * 60 * 1000);
   </script>
 
   <script type="module" src="js/main.js"></script>
