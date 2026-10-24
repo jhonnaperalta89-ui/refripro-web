@@ -64,7 +64,7 @@
       pointer-events: none;
     }
 
-    header, .hud-telemetry-bar, main, footer, .modal-backdrop, .status-floating-banner, .legal-consent-banner {
+    header, .hud-telemetry-bar, main, footer, .modal-backdrop, .status-floating-banner {
       position: relative;
       z-index: 2;
     }
@@ -303,17 +303,6 @@
       background: rgba(0, 240, 255, 0.1);
       border-color: var(--neon-cyan);
       transform: translateY(-2px);
-    }
-
-    .btn-danger-ghost {
-      background: transparent;
-      color: var(--neon-magenta);
-      border: 1px solid rgba(255, 0, 123, 0.4);
-    }
-
-    .btn-danger-ghost:hover {
-      background: rgba(255, 0, 123, 0.15);
-      border-color: var(--neon-magenta);
     }
 
     .full-btn { width: 100%; }
@@ -627,73 +616,6 @@
       letter-spacing: 2px;
     }
 
-    /* ====================================================
-       BANNER DE CONSENTIMIENTO LEGAL (LEY 25.326 ARGENTINA)
-       ==================================================== */
-    .legal-consent-banner {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(7, 9, 19, 0.95);
-      backdrop-filter: blur(16px);
-      border-top: 2px solid var(--neon-cyan);
-      box-shadow: 0 -10px 30px rgba(0, 240, 255, 0.15);
-      padding: 16px 6%;
-      z-index: 1001;
-      display: none;
-      animation: bannerSlideUp 0.35s ease-out forwards;
-    }
-
-    @keyframes bannerSlideUp {
-      from { transform: translateY(100%); }
-      to { transform: translateY(0); }
-    }
-
-    .consent-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .consent-text {
-      flex: 1;
-      min-width: 280px;
-    }
-
-    .consent-text strong {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Orbitron', sans-serif;
-      color: #fff;
-      font-size: 0.9rem;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-    }
-
-    .consent-text p {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-    }
-
-    .consent-text a {
-      color: var(--neon-cyan);
-      text-decoration: underline;
-      cursor: pointer;
-    }
-
-    .consent-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
     /* Checkbox de Términos dentro del Formulario */
     .legal-checkbox-row {
       display: flex;
@@ -755,7 +677,7 @@
     }
 
     .status-box { max-width: 520px; }
-    .terms-box { max-width: 700px; }
+    .terms-box { max-width: 720px; }
 
     .modal-header {
       padding: 18px 22px;
@@ -830,7 +752,7 @@
       color: var(--text-muted);
     }
 
-    /* Cláusulas Legales Detalladas */
+    /* Cláusulas Legales y de Garantía */
     .legal-clause {
       background: rgba(0, 0, 0, 0.4);
       border: 1px solid rgba(255, 255, 255, 0.07);
@@ -838,6 +760,11 @@
       padding: 14px;
       border-radius: 4px;
       margin-bottom: 14px;
+    }
+
+    .legal-clause.warranty-focus {
+      border-left-color: var(--neon-green);
+      background: rgba(16, 185, 129, 0.05);
     }
 
     .legal-clause h4 {
@@ -848,10 +775,19 @@
       letter-spacing: 1px;
     }
 
-    .legal-clause p {
+    .legal-clause p, .legal-clause ul {
       font-size: 0.86rem;
-      color: #94a3b8;
+      color: #cbd5e1;
       line-height: 1.5;
+    }
+
+    .legal-clause ul {
+      margin-top: 8px;
+      padding-left: 18px;
+    }
+
+    .legal-clause li {
+      margin-bottom: 4px;
     }
 
     /* Formularios */
@@ -1019,14 +955,6 @@
         bottom: 16px;
         left: 12px;
         padding: 6px 12px;
-      }
-      .legal-consent-banner {
-        padding: 14px;
-      }
-      .consent-actions {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
       }
     }
   </style>
@@ -1232,29 +1160,12 @@
     💬
   </a>
 
-  <!-- BANNER LEGAL DE CONSENTIMIENTO (LEY 25.326 ARGENTINA) -->
-  <div id="legalConsentBanner" class="legal-consent-banner">
-    <div class="consent-inner">
-      <div class="consent-text">
-        <strong>⚖️ AVISO DE PRIVACIDAD & PROTOCOLO TÉCNICO</strong>
-        <p>
-          En cumplimiento con la <strong>Ley Nacional N° 25.326 de Protección de Datos Personales</strong>, te informamos que los datos suministrados para reservas (nombre, teléfono y domicilio) se procesan exclusivamente para la coordinación del servicio técnico en Glew y alrededores. Toda visita a domicilio posee costo operativo de diagnóstico. 
-          <a onclick="openModal('modal-legal-terms')">Ver Términos y Condiciones Legales</a>.
-        </p>
-      </div>
-      <div class="consent-actions">
-        <button class="btn btn-primary" onclick="acceptLegalConsent()">✓ Aceptar Términos</button>
-        <button class="btn btn-danger-ghost" onclick="rejectLegalConsent()">✕ Rechazar</button>
-      </div>
-    </div>
-  </div>
-
   <!-- Footer -->
   <footer>
     REFRI//PRO SYSTEM ONLINE // DR. RAÚL SCALABRINI ORTIZ 1797, GLEW // WHATSAPP: +54 11 3373-2345
-    <div style="margin-top: 8px;">
+    <div style="margin-top: 10px;">
       <a onclick="openModal('modal-legal-terms')" style="color:var(--text-muted); text-decoration:underline; cursor:pointer; font-size:0.78rem;">
-        Términos de Servicio & Protección de Datos (Ley 25.326)
+        Políticas de Garantía Estándar & Privacidad de Datos (Ley 24.240 y Ley 25.326)
       </a>
     </div>
   </footer>
@@ -1273,7 +1184,7 @@
       <div class="modal-body">
         <div class="cyber-alert">
           <strong>⚠️ PROTOCOLO DE VISITA TÉCNICA:</strong>
-          <span>La visita y diagnóstico a domicilio posee un costo operativo de revisión. En caso de autorizar la reparación del equipo, dicho costo se deduce del presupuesto final.</span>
+          <span>La visita y diagnóstico a domicilio posee un costo operativo de revisión. En caso de autorizar la reparación del equipo, dicho costo se deduce del presupuesto final. Toda reparación efectuada cuenta con 90 días de garantía escrita.</span>
         </div>
 
         <form id="bookingForm" onsubmit="handleBookingSubmit(event)">
@@ -1323,8 +1234,8 @@
             <input type="checkbox" id="checkTermsAgreement" required>
             <label for="checkTermsAgreement">
               Declaro conocer y aceptar las 
-              <a onclick="openModal('modal-legal-terms')">Condiciones del Servicio y la Política de Privacidad (Ley 25.326)</a>,
-              reconociendo el costo operativo de la visita a domicilio.
+              <a onclick="openModal('modal-legal-terms')">Políticas de Garantía Estándar (90 días) y Protección de Datos (Ley 25.326)</a>,
+              reconociendo el arancel operativo de diagnóstico domiciliario.
             </label>
           </div>
 
@@ -1347,48 +1258,61 @@
     </div>
   </div>
 
-  <!-- MODAL: TÉRMINOS Y CONDICIONES COMPLETOS (LEY 25.326) -->
+  <!-- MODAL: POLÍTICAS DE GARANTÍA ESTÁNDAR & TÉRMINOS LEGALES -->
   <div class="modal-backdrop" id="modal-legal-terms" onclick="closeOnBackdrop(event, 'modal-legal-terms')">
     <div class="modal-box terms-box">
       <div class="modal-header">
         <div>
-          <h3>TÉRMINOS LEGALES & PROTECCIÓN DE DATOS</h3>
-          <p>Marco regulatorio conforme a la legislación de la República Argentina</p>
+          <h3>POLÍTICA DE GARANTÍA & TÉRMINOS LEGALES</h3>
+          <p>Estándar del gremio de refrigeración conforme a Ley 24.240 y Ley 25.326</p>
         </div>
         <button class="modal-close-btn" onclick="closeModal('modal-legal-terms')">&times;</button>
       </div>
 
       <div class="modal-body">
-        <div class="legal-clause">
-          <h4>1. PROTECCIÓN DE DATOS PERSONALES (LEY N° 25.326)</h4>
+        
+        <!-- POLÍTICA DE GARANTÍA TÉCNICA -->
+        <div class="legal-clause warranty-focus">
+          <h4>1. PLAZO Y COBERTURA DE GARANTÍA TÉCNICA (LEY 24.240)</h4>
           <p>
-            En estricto cumplimiento del art. 6 de la Ley 25.326, se informa al usuario que los datos personales recabados (nombre, número de contacto y domicilio) formarán parte de una base de datos automatizada titularidad de RefriPro con fines exclusivos de coordinación operativa, confirmación de visitas técnicas y seguimiento post-servicio. No se ceden, comercializan ni transfieren datos a terceros bajo ninguna circunstancia.
+            En cumplimiento del Art. 11 de la Ley Nacional de Defensa del Consumidor N° 24.240, toda reparación efectuada por RefriPro cuenta con un <strong>plazo de garantía legal estándar de noventa (90) días corridos</strong> contados a partir de la fecha de entrega o puesta en marcha del artefacto.
+          </p>
+          <ul>
+            <li><strong>Alcance:</strong> Cubre defectos de mano de obra y fallas de fabricación en repuestos nuevos instalados (compresores, sensores bimetálicos, forzadores, relays térmicos, placas de control).</li>
+            <li><strong>Cargas de refrigerante:</strong> La garantía sobre recargas de gas refrigerante (R134a, R600a, R410a, etc.) es válida exclusivamente cuando el técnico haya realizado y certificado la prueba previa de presurización y hermeticidad con nitrógeno.</li>
+          </ul>
+        </div>
+
+        <!-- EXCLUSIONES DE GARANTÍA -->
+        <div class="legal-clause">
+          <h4>2. EXCLUSIONES DE LA GARANTÍA</h4>
+          <p>La garantía técnica quedará automáticamente invalidada en los siguientes supuestos:</p>
+          <ul>
+            <li><strong>Sobretensión eléctrica:</strong> Daños ocasionados por variaciones de tensión de la red domiciliaria, descargas atmosféricas (rayos) o falta de disyuntor/térmica adecuada.</li>
+            <li><strong>Intervención no autorizada:</strong> Desarme, modificación de conexiones o intento de reparación posterior realizado por terceros ajenos al servicio técnico.</li>
+            <li><strong>Daño mecánico provocado:</strong> Perforación accidental de evaporadores/cañerías por uso de cuchillos u objetos punzantes para desprender escarcha.</li>
+            <li><strong>Uso indebido:</strong> Empleo de equipos de línea familiar en explotaciones comerciales de exigencia continua desmedida.</li>
+          </ul>
+        </div>
+
+        <!-- COSTO DE DIAGNÓSTICO -->
+        <div class="legal-clause">
+          <h4>3. COSTO OPERATIVO DE VISITA Y DIAGNÓSTICO EN DOMICILIO</h4>
+          <p>
+            El traslado a domicilio y chequeo instrumental implica un costo operativo de diagnóstico que es comunicado previamente al cliente. En caso de que el cliente apruebe la orden de reparación sugerida, <strong>dicho importe se descontará íntegramente del presupuesto final</strong> de mano de obra.
           </p>
         </div>
 
+        <!-- PRIVACIDAD LEY 25.326 -->
         <div class="legal-clause">
-          <h4>2. DERECHOS ARCO DEL TITULAR</h4>
+          <h4>4. PROTECCIÓN DE DATOS PERSONALES (LEY 25.326)</h4>
           <p>
-            El titular de los datos personales tiene la facultad de ejercer el derecho de acceso, rectificación, actualización o supresión de los mismos en forma gratuita comunicándose a nuestra casilla de asistencia o vía WhatsApp oficial (+54 11 3373-2345). La <strong>Agencia de Acceso a la Información Pública (AAIP)</strong>, Órgano de Control de la Ley N° 25.326, tiene la atribución de atender las denuncias y reclamos relativos al incumplimiento de las normas sobre protección de datos.
-          </p>
-        </div>
-
-        <div class="legal-clause">
-          <h4>3. COSTO OPERATIVO DE VISITA TÉCNICA Y DIAGNÓSTICO</h4>
-          <p>
-            Toda solicitud de asistencia a domicilio dentro de Glew y zonas aledañas implica el devengamiento de un arancel por traslado instrumental y diagnóstico técnico en sitio. Dicho monto es informado de manera previa a la partida del móvil. En caso de que el cliente apruebe la reparación del equipo, el costo de diagnóstico será <strong>deducido del presupuesto final de mano de obra</strong>.
-          </p>
-        </div>
-
-        <div class="legal-clause">
-          <h4>4. VALIDEZ DEL CÓDIGO DE RESERVA</h4>
-          <p>
-            La generación de una clave de reserva (formato REF-XXXX) constituye una solicitud sujeta a validación y disponibilidad de franja horaria por parte del personal técnico. La visita se considerará formalmente ratificada una vez aprobada en el sistema y reconfirmada a través del canal oficial de WhatsApp.
+            Los datos personales recolectados (nombre, teléfono y dirección) son utilizados exclusivamente para la coordinación logística y la trazabilidad de la orden técnica. El titular puede ejercer en todo momento sus derechos ARCO (Acceso, Rectificación y Supresión) ante RefriPro y denunciar incumplimientos ante la <strong>Agencia de Acceso a la Información Pública (AAIP)</strong>.
           </p>
         </div>
 
         <button class="btn btn-primary full-btn" style="margin-top:10px;" onclick="closeModal('modal-legal-terms')">
-          Entendido y Cerrar Términos
+          Entendido y Cerrar Políticas
         </button>
       </div>
     </div>
@@ -1433,7 +1357,7 @@
         </div>
         <div class="detail-block">
           <strong>⚙️ Cambio de Motores (Compresores):</strong>
-          <span>Instalación de compresor nuevo, reemplazo de filtro deshidratador, válvula de servicio y prueba eléctrica bajo carga.</span>
+          <span>Instalación de compresor nuevo, reemplazo de filtro deshidratador, válvula de servicio y prueba eléctrica bajo carga con 90 días de garantía.</span>
         </div>
         <div class="detail-block">
           <strong>🌡️ Reparación o Cambio de Termostato:</strong>
@@ -1587,42 +1511,6 @@
     }
     updateGlewTelemetry();
     setInterval(updateGlewTelemetry, 10 * 60 * 1000);
-
-    // ==========================================
-    // CONTROL DEL BANNER DE CONSENTIMIENTO LEY 25.326
-    // ==========================================
-    window.addEventListener('DOMContentLoaded', () => {
-      const consentStatus = localStorage.getItem('refripro_legal_consent');
-      const banner = document.getElementById('legalConsentBanner');
-      const formCheck = document.getElementById('checkTermsAgreement');
-
-      // Si no ha respondido aún, mostrar el banner al entrar
-      if (!consentStatus && banner) {
-        banner.style.display = 'block';
-      } else if (consentStatus === 'accepted' && formCheck) {
-        formCheck.checked = true;
-      }
-    });
-
-    window.acceptLegalConsent = function() {
-      localStorage.setItem('refripro_legal_consent', 'accepted');
-      const banner = document.getElementById('legalConsentBanner');
-      if (banner) banner.style.display = 'none';
-
-      const formCheck = document.getElementById('checkTermsAgreement');
-      if (formCheck) formCheck.checked = true;
-    };
-
-    window.rejectLegalConsent = function() {
-      localStorage.setItem('refripro_legal_consent', 'rejected');
-      const banner = document.getElementById('legalConsentBanner');
-      if (banner) banner.style.display = 'none';
-
-      const formCheck = document.getElementById('checkTermsAgreement');
-      if (formCheck) formCheck.checked = false;
-
-      alert('Has rechazado los términos. La toma de datos para reservas automatizadas ha quedado deshabilitada. Si precisas asistencia técnica directa, puedes coordinar por WhatsApp al +54 11 3373-2345.');
-    };
   </script>
 
   <script type="module" src="js/main.js"></script>
