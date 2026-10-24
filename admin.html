@@ -5,39 +5,366 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Panel Privado | RefriPro Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070913;
+      --bg-card: rgba(14, 20, 38, 0.9);
+      --neon-cyan: #00f0ff;
+      --neon-green: #10b981;
+      --neon-yellow: #f59e0b;
+      --neon-red: #ef4444;
+      --border-glass: rgba(0, 240, 255, 0.25);
+      --text-main: #f0f4f8;
+      --text-muted: #8b9bb4;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rajdhani', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 30px 16px;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .admin-wrapper {
+      max-width: 1050px;
+      margin: 0 auto;
+    }
+
+    /* Login */
+    .admin-card-auth {
+      background: var(--bg-card);
+      border: 1px solid var(--neon-cyan);
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15);
+      border-radius: 10px;
+      max-width: 420px;
+      margin: 60px auto;
+      padding: 35px 28px;
+      text-align: center;
+    }
+
+    .auth-icon {
+      font-size: 2.4rem;
+      margin-bottom: 10px;
+    }
+
+    .auth-header h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: 1.5px;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+
+    .auth-header p {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+      color: var(--neon-cyan);
+      text-transform: uppercase;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-glass);
+      border-radius: 6px;
+      background: #04060d;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    .btn-login {
+      width: 100%;
+      background: var(--neon-cyan);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 0.88rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      margin-top: 8px;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      transition: all 0.2s;
+    }
+
+    .btn-login:hover {
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.7);
+      transform: translateY(-2px);
+    }
+
+    .login-error-msg {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid var(--neon-red);
+      color: #fca5a5;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      margin-bottom: 12px;
+    }
+
+    /* Dashboard */
+    .admin-dashboard-container {
+      background: var(--bg-card);
+      border-radius: 10px;
+      border: 1px solid var(--border-glass);
+      padding: 28px;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(14px);
+    }
+
+    .dash-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 18px;
+      margin-bottom: 22px;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .dash-top h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 1.5px;
+      color: #fff;
+    }
+
+    .dash-top p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .dash-top-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-public-link {
+      background: rgba(0, 240, 255, 0.08);
+      border: 1px solid var(--border-glass);
+      color: var(--neon-cyan);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .btn-public-link:hover {
+      background: rgba(0, 240, 255, 0.2);
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid var(--neon-red);
+      color: #fca5a5;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-logout:hover {
+      background: var(--neon-red);
+      color: #fff;
+    }
+
+    /* Barra de Métricas */
+    .dash-stats-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .stat-pill {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .stat-pill strong { color: #fff; font-family: 'Orbitron', sans-serif; }
+    .stat-pill.green { border-color: rgba(16, 185, 129, 0.4); color: var(--neon-green); }
+    .stat-pill.yellow { border-color: rgba(245, 158, 11, 0.4); color: var(--neon-yellow); }
+    .stat-pill.red { border-color: rgba(239, 68, 68, 0.4); color: var(--neon-red); }
+
+    /* Tarjetas de Reservas */
+    .admin-cards-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .admin-res-card {
+      background: rgba(4, 7, 18, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 20px;
+      transition: all 0.2s;
+    }
+
+    .admin-res-card.is-approved { border-left: 5px solid var(--neon-green); }
+    .admin-res-card.is-pending { border-left: 5px solid var(--neon-yellow); }
+    .admin-res-card.is-rejected { border-left: 5px solid var(--neon-red); }
+
+    .res-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .res-code-pill {
+      background: rgba(0, 240, 255, 0.12);
+      border: 1px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 4px;
+      letter-spacing: 1.5px;
+    }
+
+    .res-data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      font-size: 0.92rem;
+      background: rgba(0, 0, 0, 0.35);
+      padding: 14px 16px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 16px;
+    }
+
+    .res-data-grid div strong {
+      color: var(--neon-cyan);
+      letter-spacing: 0.5px;
+    }
+
+    .res-actions-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 14px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-status-action {
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-approve {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--neon-green);
+      border: 1px solid var(--neon-green);
+    }
+    .btn-approve:hover { background: var(--neon-green); color: #000; }
+
+    .btn-reject {
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--neon-red);
+      border: 1px solid var(--neon-red);
+    }
+    .btn-reject:hover { background: var(--neon-red); color: #fff; }
+
+    .btn-delete-res {
+      background: transparent;
+      border: none;
+      color: #64748b;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .btn-delete-res:hover { color: var(--neon-red); }
+  </style>
 </head>
-<body class="admin-body">
+<body>
 
   <div class="admin-wrapper">
+    <!-- Login -->
     <div id="adminLoginBox" class="admin-card-auth">
       <div class="auth-header">
         <div class="auth-icon">🔐</div>
-        <h2>Acceso Administrativo</h2>
-        <p>Introduce tus credenciales para gestionar solicitudes</p>
+        <h2>ACCESO TÉCNICO</h2>
+        <p>Autenticación para consola de administración</p>
       </div>
 
       <form onsubmit="handleAdminLogin(event)">
-        <div class="form-group" style="margin-bottom: 14px;">
+        <div class="form-group">
           <label for="adminUser">Usuario</label>
-          <input type="text" id="adminUser" placeholder="Usuario" required>
+          <input type="text" id="adminUser" placeholder="Usuario" required autocomplete="off">
         </div>
-        <div class="form-group" style="margin-bottom: 18px;">
+        <div class="form-group">
           <label for="adminPass">Contraseña</label>
           <input type="password" id="adminPass" placeholder="Contraseña" required>
         </div>
         <div id="adminLoginError" class="login-error-msg" style="display: none;">
-          ❌ Usuario o contraseña incorrectos.
+          Credenciales incorrectas.
         </div>
-        <button type="submit" class="btn-primary full-width">Ingresar al Panel</button>
+        <button type="submit" class="btn-login">INGRESAR AL SISTEMA</button>
       </form>
-      <div style="margin-top: 15px; text-align: center;">
-        <a href="index.html" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: none;">← Volver al sitio principal</a>
+      <div style="margin-top: 18px;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: none;">← Volver al sitio público</a>
       </div>
     </div>
 
+    <!-- Dashboard Principal -->
     <div id="adminDashboardBox" class="admin-dashboard-container" style="display: none;">
       <header class="dash-top">
         <div>
@@ -45,7 +372,7 @@
           <p>Aprobación, rechazo y seguimiento de visitas técnicas</p>
         </div>
         <div class="dash-top-actions">
-          <a href="index.html" class="btn-sub-booking" target="_blank">Ver Web Pública ↗</a>
+          <a href="index.html" class="btn-public-link" target="_blank">Ver Web Pública ↗</a>
           <button class="btn-logout" onclick="logoutAdmin()">Cerrar Sesión</button>
         </div>
       </header>
